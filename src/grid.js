@@ -48,6 +48,19 @@ class Grid {
     
             });
         });
+
+        document.addEventListener("keydown", (event) => {
+            this.pixels.forEach((pixel) => {
+                if (pixel.clicked) {
+                    let key = event.key;
+                    if(["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(key)) {
+                        pixel.value = key;
+                    } else if (key === "Backspace" || key === "0") {
+                        pixel.value = "";
+                    }
+                }
+            });
+        });
     }
 
     loadPixels() {

@@ -9,32 +9,29 @@ class Pixel {
         this.location = { x:0, y:0}
         this.hovered = false;
         this.clicked = false;
-    }
-
-    /*
-        Dark grey   #808080
-        Grey        #C0C0C0
-        Light grey  #E0E0E0
-    */
-
-    #drawRect(x, y, sizeX, sizeY, color) {
-        this.ctx.beginPath();
-        this.ctx.fillStyle = color;
-        this.ctx.strokeStyle = "#000000";
-        this.ctx.rect(x, y, sizeX, sizeY);
-        this.ctx.fill();
-        this.ctx.stroke();
+        this.value = "";
     }
 
     draw() {
-        this.#drawRect(this.location.x, this.location.y, this.size, this.size, this.color);
+        this.ctx.beginPath();
+        this.ctx.fillStyle = this.color;
+        this.ctx.strokeStyle = "#000000";
+        this.ctx.rect(this.location.x, this.location.y, this.size, this.size);
+        this.ctx.fill();
+        this.ctx.stroke();
+
+        this.ctx.beginPath();
+        this.ctx.font = "36px arial";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.fillStyle = "#111111";
+        this.ctx.fillText(this.value, this.location.x+(this.size/2), this.location.y+(this.size/2));
     }
 
     update() {
-        if  (!this.hovered) this.color = "#FFFFFF"
-        if (!this.clicked && this.hovered) this.color = "#E0E0E0";
-        if (this.clicked) this.color = "#C0C0C0";
-        
+        if (!this.hovered) this.color = "#FFFFFF" // White
+        if (!this.clicked && this.hovered) this.color = "#E0E0E0"; // Light gray
+        if (this.clicked) this.color = "#C0C0C0"; // Gray
     }
 
     setColor(color) {
