@@ -72,7 +72,7 @@ class Grid {
         document.addEventListener("keydown", (event) => {
             let found = false;
             let code = event.key;
-            if (code === "ArrowLeft") {
+            if (code === "ArrowLeft" || code === "a") {
                 this.pixels.forEach((pixel, index) => {
                     if (pixel.selected && !found) {
                         pixel.selected = false;
@@ -85,7 +85,7 @@ class Grid {
                     }
                 });
             }
-            if (code === "ArrowRight") {
+            if (code === "ArrowRight" || code === "d") {
                 this.pixels.forEach((pixel, index) => {                   
                     if (pixel.selected && !found) {
                         pixel.selected = false;
@@ -98,7 +98,7 @@ class Grid {
                     }
                 });
             }
-            if (code === "ArrowUp") {
+            if (code === "ArrowUp" || code === "w") {
                 this.pixels.forEach((pixel, index) => {                   
                     if (pixel.selected && !found) {
                         pixel.selected = false;
@@ -113,7 +113,7 @@ class Grid {
                     }
                 });
             }
-            if (code === "ArrowDown") {
+            if (code === "ArrowDown" || code === "s") {
                 this.pixels.forEach((pixel, index) => {                   
                     if (pixel.selected && !found) {
                         pixel.selected = false;
