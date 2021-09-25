@@ -8,7 +8,7 @@ class Pixel {
         this.size = size;
         this.location = { x:0, y:0}
         this.hovered = false;
-        this.clicked = false;
+        this.selected = false;
         this.value = "";
     }
 
@@ -30,12 +30,16 @@ class Pixel {
 
     update() {
         if (!this.hovered) this.color = "#FFFFFF" // White
-        if (!this.clicked && this.hovered) this.color = "#E0E0E0"; // Light gray
-        if (this.clicked) this.color = "#C0C0C0"; // Gray
+        if (!this.selected && this.hovered) this.color = "#E0E0E0"; // Light gray
+        if (this.selected) this.color = "#C0C0C0"; // Gray
     }
 
     setColor(color) {
         this.color = color;
+    }
+
+    setSelected(selected) {
+        this.selected = selected;
     }
 
     getId() {

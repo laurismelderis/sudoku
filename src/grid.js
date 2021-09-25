@@ -13,7 +13,9 @@ class Grid {
         this.init();
     }
 
+    // Init holds all the canvas events
     init() {
+        // Add hover option for hovered pixel
         this.canvas.addEventListener("mousemove", (event) => {
             let x = event.offsetX;
             let y = event.offsetY;
@@ -28,12 +30,15 @@ class Grid {
             });
             
         });
+
+        // Remove hover option for all pixels 
         this.canvas.addEventListener("mouseleave", (event) => {
             this.pixels.forEach((pixel) => {
                 pixel.hovered = false;
             });
         });
 
+        // Select hovered pixel
         this.canvas.addEventListener("click", (event) => {
             let x = event.offsetX;
             let y = event.offsetY;
@@ -41,17 +46,18 @@ class Grid {
             this.pixels.forEach((pixel) => {
                 if (x > pixel.location.x && x < pixel.location.x + pixel.size && 
                     y > pixel.location.y && y < pixel.location.y + pixel.size &&
-                    !pixel.clicked) {
-                    pixel.clicked = true;
+                    !pixel.selected) {
+                    pixel.selected = true;
                 } else 
-                    pixel.clicked = false;
+                    pixel.selected = false;
     
             });
         });
 
+        // Change value to selected pixel
         document.addEventListener("keydown", (event) => {
             this.pixels.forEach((pixel) => {
-                if (pixel.clicked) {
+                if (pixel.selected) {
                     let key = event.key;
                     if(["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(key)) {
                         pixel.value = key;
@@ -61,14 +67,79 @@ class Grid {
                 }
             });
         });
+
+        // Move selected pixel with arrow keys
+        document.addEventListener("keydown", (event) => {
+            let found = false;
+            let code = event.key;
+            if (code === "ArrowLeft") {
+                this.pixels.forEach((pixel, index) => {
+                    if (pixel.selected && !found) {
+                        pixel.selected = false;
+                        if (pixel.id <= 0) {
+                            this.pixels[this.pixels.length-1].setSelected(true);
+                        } else {
+                            this.pixels[index-1].setSelected(true);
+                        }
+                        found = true;
+                    }
+                });
+            }
+            if (code === "ArrowRight") {
+                this.pixels.forEach((pixel, index) => {                   
+                    if (pixel.selected && !found) {
+                        pixel.selected = false;
+                        if (index >= this.pixels.length-1) {
+                            this.pixels[0].setSelected(true);
+                        } else {
+                            this.pixels[index+1].setSelected(true);
+                        }
+                        found = true;
+                    }
+                });
+            }
+            if (code === "ArrowUp") {
+                this.pixels.forEach((pixel, index) => {                   
+                    if (pixel.selected && !found) {
+                        pixel.selected = false;
+                        if (index === 9) {
+                            this.pixels[0].setSelected(true);
+                        } else if ((index-9) <= 0) {
+                            this.pixels[this.pixels.length + index - 9].setSelected(true);
+                        } else {
+                            this.pixels[index-9].setSelected(true);
+                        }
+                        found = true;
+                    }
+                });
+            }
+            if (code === "ArrowDown") {
+                this.pixels.forEach((pixel, index) => {                   
+                    if (pixel.selected && !found) {
+                        pixel.selected = false;
+                        if (index >= this.pixels.length - 9) {
+                            this.pixels[index-72].setSelected(true);
+                        } else {
+                            this.pixels[index+9].setSelected(true);
+                        }
+                        found = true;
+                    }
+                });
+            }
+                
+        });
     }
 
+    // Create a field of pixels
     loadPixels() {
         for (let i = 0; i < this.gridSize; i++) {
             for (let j = 0; j < this.gridSize; j++) {
                 let pixel = new Pixel(this.ctx, this.pixelSize);
                 pixel.location.x = j * this.pixelSize;
                 pixel.location.y = i * this.pixelSize;
+                pixel.hovered = false;
+                pixel.selected = false;
+                pixel.value = "";
                 this.pixels.push(pixel);
             }
         }
