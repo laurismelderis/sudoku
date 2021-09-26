@@ -10,6 +10,7 @@ class Pixel {
         this.hovered = false;
         this.selected = false;
         this.value = "";
+        this.changable = true;
     }
 
     draw() {

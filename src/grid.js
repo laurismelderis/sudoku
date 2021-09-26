@@ -9,7 +9,9 @@ class Grid {
         this.gridSize = 9;
         this.pixelSize = this.W / this.gridSize;
 
-        this.loadPixels();
+        this.sudoku = new Sudoku();
+
+        this.loadPixels(this.sudoku.puzzle);
         this.init();
     }
 
@@ -57,7 +59,7 @@ class Grid {
         // Change value to selected pixel
         document.addEventListener("keydown", (event) => {
             this.pixels.forEach((pixel) => {
-                if (pixel.selected) {
+                if (pixel.selected && pixel.changable) {
                     let key = event.key;
                     if(["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(key)) {
                         pixel.value = key;
@@ -131,7 +133,12 @@ class Grid {
     }
 
     // Create a field of pixels
-    loadPixels() {
+    loadPixels(puzzle) {
+        if (puzzle.length != 81) {
+            console.log("Puzzle length should be 81!")
+            return;
+        }
+        let counter = 0;
         for (let i = 0; i < this.gridSize; i++) {
             for (let j = 0; j < this.gridSize; j++) {
                 let pixel = new Pixel(this.ctx, this.pixelSize);
@@ -139,8 +146,16 @@ class Grid {
                 pixel.location.y = i * this.pixelSize;
                 pixel.hovered = false;
                 pixel.selected = false;
-                pixel.value = "";
+                if (puzzle[counter] > 10 || puzzle[counter] < 0) console.log("Invalid puzzle value: " + puzzle[counter]);
+                if (puzzle[counter] === 0) {
+                    pixel.changable = true;
+                    pixel.value = "";
+                } else {
+                    pixel.changable = false;
+                    pixel.value = String(puzzle[counter]);
+                }
                 this.pixels.push(pixel);
+                counter++;
             }
         }
     }
