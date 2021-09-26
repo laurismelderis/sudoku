@@ -6,8 +6,8 @@ class Sudoku {
     }
 
     loadPuzzle() {
-        // this.puzzle = this.puzzles.test.unsolved;
-        this.puzzle = this.puzzles.test.solved;
+        this.puzzle = this.puzzles.test.unsolved;
+        // this.puzzle = this.puzzles.test.solved;
     }
 
     checkPuzzle(currentPuzzle) {
