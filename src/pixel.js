@@ -9,7 +9,7 @@ class Pixel {
         this.location = { x:0, y:0}
         this.hovered = false;
         this.selected = false;
-        this.value = "";
+        this.value = 0;
         this.changable = true;
     }
 
@@ -26,7 +26,10 @@ class Pixel {
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
         this.ctx.fillStyle = "#111111";
-        this.ctx.fillText(this.value, this.location.x+(this.size/2), this.location.y+(this.size/2));
+        if (this.value === 0)
+            this.ctx.fillText("", this.location.x+(this.size/2), this.location.y+(this.size/2));
+        else
+            this.ctx.fillText(this.value, this.location.x+(this.size/2), this.location.y+(this.size/2));
     }
 
     update() {

@@ -1,7 +1,8 @@
 class Game {	
 	constructor(canvasSize) {
+		this.solvedEl = document.getElementById("puzzleSolved")
 		this.canvas = document.getElementById("sudokuGrid");
-		this.grid = new Grid(this.canvas, canvasSize);
+		this.grid = new Grid(this.canvas, canvasSize, this.solvedEl);
 		this.isRunning = false;
 		this.gameLoop = null;
 	}

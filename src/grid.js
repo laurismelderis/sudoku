@@ -1,10 +1,12 @@
 class Grid {
-    constructor(canvas, canvasSize) {
+    constructor(canvas, canvasSize, solvedEl) {
         this.canvas = canvas;
         this.W = this.canvas.width = canvasSize;
         this.H = this.canvas.height = canvasSize;
         this.ctx = this.canvas.getContext("2d");
         this.pixels = [];
+
+        this.solvedEl = solvedEl;
 
         this.gridSize = 9;
         this.pixelSize = this.W / this.gridSize;
@@ -64,7 +66,7 @@ class Grid {
                     if(["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(key)) {
                         pixel.value = key;
                     } else if (key === "Backspace" || key === "0") {
-                        pixel.value = "";
+                        pixel.value = 0;
                     }
                 }
             });
@@ -147,13 +149,12 @@ class Grid {
                 pixel.hovered = false;
                 pixel.selected = false;
                 if (puzzle[counter] > 10 || puzzle[counter] < 0) console.log("Invalid puzzle value: " + puzzle[counter]);
-                if (puzzle[counter] === 0) {
+                if (puzzle[counter] === 0)
                     pixel.changable = true;
-                    pixel.value = "";
-                } else {
+                else
                     pixel.changable = false;
-                    pixel.value = String(puzzle[counter]);
-                }
+                    
+                pixel.value = puzzle[counter];
                 this.pixels.push(pixel);
                 counter++;
             }
@@ -171,5 +172,6 @@ class Grid {
         this.pixels.forEach((pixel) => {
             pixel.update();
         });
+        this.solvedEl.innerHTML = this.sudoku.checkPuzzle(this.pixels);
     }
 }
